@@ -43,8 +43,9 @@ a,button,input,textarea{-webkit-tap-highlight-color:transparent}
 .editor-section h3{font-size:clamp(11px,1.3vmin,12px);color:#6e7090;margin-bottom:clamp(14px,2.5vmin,22px);font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
 .asset-wrap{position:relative;width:100%;max-width:200px;margin:0 auto;border-radius:12px;overflow:hidden;aspect-ratio:1}
 .asset-preview{width:100%;height:100%;object-fit:cover;background:#12121e;display:block;border:1px solid rgba(255,255,255,.05);border-radius:12px}
-.upload-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;border-radius:12px;cursor:pointer;font-family:inherit;font-weight:600;text-align:center;border:none;background:rgba(0,0,0,.4);color:rgba(255,255,255,.7);transition:background .2s,color .2s}
-.upload-btn:hover{background:rgba(0,0,0,.6);color:#fff}
+.asset-overlay{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.upload-btn{display:flex;align-items:center;justify-content:center;padding:0 14px;font-size:clamp(11px,1.3vmin,13px);border-radius:8px;cursor:pointer;font-family:inherit;height:32px;line-height:1;box-sizing:border-box;transition:all .2s;font-weight:500;text-align:center;flex:1;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#e8e8f0}
+.upload-btn:hover{background:rgba(255,255,255,.25);color:#fff}
 input[type="file"]{display:none}
 .field-group{margin-bottom:22px}
 .field-group:last-child{margin-bottom:0}
@@ -169,7 +170,7 @@ function renderEditor(){
     return `<div id="editorScreen" style="display:block">
 <div class="editor-topbar"><h2>עורך המשחק</h2><div class="editor-topbar-actions"><button class="e-btn e-btn-back" id="edBackBtn">חזרה</button><button class="e-btn e-btn-start" id="edStartBtn">התחל משחק</button></div></div>
 <div class="editor-header"><p>התאם את המשחק שלך</p></div>
-<div class="editor-section"><h3>תמונת דמות</h3><div class="asset-wrap"><img class="asset-preview" src="${src}" id="astroPreview"/><label class="upload-btn" for="astroFile">החלף תמונה</label></div><input type="file" id="astroFile" accept="image/*"/></div>
+<div class="editor-section"><h3>תמונת דמות</h3><div class="asset-wrap"><img class="asset-preview" src="${src}" id="astroPreview"/><div class="asset-overlay"><label class="upload-btn" for="astroFile">החלף תמונה</label></div></div><input type="file" id="astroFile" accept="image/*"/></div>
 <div class="editor-section"><h3>טקסטים</h3><div class="field-group"><label class="field-label">כותרת פתיחה</label><input class="text-field" id="txtTitle" value="${STATE.texts.title}"/></div><div class="field-group"><label class="field-label">כותרת משנה</label><input class="text-field" id="txtSub" value="${STATE.texts.subtitle}"/></div><div class="field-group"><label class="field-label">הודעת סיום זמן</label><input class="text-field" id="txtEnd" value="${STATE.texts.endTime}"/></div><div class="field-group"><label class="field-label">הודעת מוות</label><input class="text-field" id="txtDeath" value="${STATE.texts.endDeath}"/></div></div>
 <div class="editor-section"><h3>רמת קושי</h3><div class="diff-group"><button class="diff-btn ${STATE.difficulty==='easy'?'active':''}" data-diff="easy">קל</button><button class="diff-btn ${STATE.difficulty==='medium'?'active':''}" data-diff="medium">בינוני</button><button class="diff-btn ${STATE.difficulty==='hard'?'active':''}" data-diff="hard">קשה</button></div></div>
 <div class="editor-section"><button class="e-btn-share-full" id="edShareBtn">שתף משחק</button></div>
