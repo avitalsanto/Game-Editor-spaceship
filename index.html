@@ -114,9 +114,9 @@ const STATE={
 };
 
 const DIFF_CFG={
-    easy:{spd:1.8,freq:80,meteor:0.2,alien:0.15},
-    medium:{spd:2.6,freq:48,meteor:0.28,alien:0.33},
-    hard:{spd:3.2,freq:35,meteor:0.3,alien:0.4}
+    easy:{spd:1.8,freq:80,meteor:0.2,alien:0.15,maxLives:5},
+    medium:{spd:2.6,freq:48,meteor:0.28,alien:0.33,maxLives:3},
+    hard:{spd:3.2,freq:35,meteor:0.3,alien:0.4,maxLives:3}
 };
 
 function loadFromHash(){
@@ -344,7 +344,7 @@ function initGameEngine(){
     let baseSpeed=dc.spd,speedBoost=1.0,corridorW=Math.min(340,cW*0.6),speedBoostTimer=0,shieldTimer=0;
     let corridorPts=[],items=[],enemies=[],particles=[],popups=[],corridorDecor=[];
     const ship={x:0,y:0,angle:0,targetAngle:0,bobPhase:0};
-    const cfg={spd:dc.spd,width:340,widthRatio:0.55,meteor:dc.meteor,alien:dc.alien,freq:dc.freq};
+    const cfg={spd:dc.spd,width:340,widthRatio:0.55,meteor:dc.meteor,alien:dc.alien,freq:dc.freq,maxLives:dc.maxLives||5};
     const decorTypes=['rock_sm','rock_md','debris'];
 
     const AudioCtx=window.AudioContext||window.webkitAudioContext;
@@ -386,7 +386,7 @@ function initGameEngine(){
         if(frameCount%3===0)particles.push({x:ship.x+(Math.random()-0.5)*18,y:ship.y+68,vx:(Math.random()-0.5)*1,vy:1.5+Math.random()*2.5,life:1,decay:0.035,size:2+Math.random()*3,color:speedBoost>1.3?'rgba(255,140,50,0.4)':'rgba(200,80,30,0.25)'});
         for(let i=corridorDecor.length-1;i>=0;i--){corridorDecor[i].y+=scrollSpd;if(corridorDecor[i].y>cH+100)corridorDecor.splice(i,1);}
         for(let i=enemies.length-1;i>=0;i--){const e=enemies[i];e.y+=scrollSpd;e.x+=e.vx;if(dist(ship.x,ship.y,e.x,e.y)<55){hit(STATE.texts.endDeath);createExplosion(e.x,e.y,'#8020a0');playExplosion();enemies.splice(i,1);continue;}if(e.y>cH+100)enemies.splice(i,1);}
-        for(let i=items.length-1;i>=0;i--){const it=items[i];if(it.phase!==undefined)it.phase+=0.05;if(it.rot!==undefined)it.rot+=it.rotSpd;it.y+=scrollSpd;const cd=it.type==='meteor'?it.size*1.1:45;if(dist(ship.x,ship.y,it.x,it.y)<cd){if(it.type==='meteor'){hit('התנגשות במטאור!');createExplosion(it.x,it.y,'#a03020',12);}else if(it.type==='life'){lives=Math.min(5,lives+1);updateUIFn();createExplosion(it.x,it.y,'#d04040',10);playPickup();spawnPopup(it.x,it.y,'❤️','חיים +1','#d04040');}else if(it.type==='turbo'){shieldTimer=600;createExplosion(it.x,it.y,'#40a0e0',10);playPickup();playTone(800,0.1);spawnPopup(it.x,it.y,'⚡','מגן!','#40a0e0');}else if(it.type==='star'){score+=50;scoreVal.innerText=Math.floor(score/10);createExplosion(it.x,it.y,'#e8c040',8);playPickup();playTone(1000,0.08);spawnPopup(it.x,it.y,'⭐','+5','#e8c040');}items.splice(i,1);continue;}if(it.y>cH+100)items.splice(i,1);}
+        for(let i=items.length-1;i>=0;i--){const it=items[i];if(it.phase!==undefined)it.phase+=0.05;if(it.rot!==undefined)it.rot+=it.rotSpd;it.y+=scrollSpd;const cd=it.type==='meteor'?it.size*1.1:45;if(dist(ship.x,ship.y,it.x,it.y)<cd){if(it.type==='meteor'){hit('התנגשות במטאור!');createExplosion(it.x,it.y,'#a03020',12);}else if(it.type==='life'){lives=Math.min(cfg.maxLives||5,lives+1);updateUIFn();createExplosion(it.x,it.y,'#d04040',10);playPickup();spawnPopup(it.x,it.y,'❤️','חיים +1','#d04040');}else if(it.type==='turbo'){shieldTimer=600;createExplosion(it.x,it.y,'#40a0e0',10);playPickup();playTone(800,0.1);spawnPopup(it.x,it.y,'⚡','מגן!','#40a0e0');}else if(it.type==='star'){score+=50;scoreVal.innerText=Math.floor(score/10);createExplosion(it.x,it.y,'#e8c040',8);playPickup();playTone(1000,0.08);spawnPopup(it.x,it.y,'⭐','+5','#e8c040');}items.splice(i,1);continue;}if(it.y>cH+100)items.splice(i,1);}
         for(let i=popups.length-1;i>=0;i--){const pp=popups[i];pp.age++;pp.y-=1.2;pp.life-=0.015;if(pp.life<=0)popups.splice(i,1);}
         speedBar.style.height=(speedBoost/2.5)*100+'%';tickTouchHold();handleInput();checkBounds();ship.bobPhase+=0.055;ship.angle+=(ship.targetAngle-ship.angle)*0.12;if(invuln>0)invuln--;if(shake>0)shake*=0.87;if(speedBoostTimer>0)speedBoostTimer--;if(shieldTimer>0)shieldTimer--;
     }
