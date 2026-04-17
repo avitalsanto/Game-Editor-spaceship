@@ -509,7 +509,7 @@ function renderGame(){
 }
 
 function bindGame(){
-    document.getElementById('backBtn').addEventListener('click',()=>{if(animFrameId){cancelAnimationFrame(animFrameId);animFrameId=null;}gameEngineRunning=false;STATE.mode='editor';renderApp()});
+    document.getElementById('backBtn').addEventListener('click',()=>{if(animFrameId){cancelAnimationFrame(animFrameId);animFrameId=null;}gameEngineRunning=false;if(STATE.assets.astronautOriginal)STATE.assets.astronaut=STATE.assets.astronautOriginal;STATE.mode='editor';renderApp()});
     initGameEngine();
 }
 
@@ -551,8 +551,8 @@ function initGameEngine(){
     astroImg.crossOrigin='anonymous';
     if(STATE.assets.astronautOriginal&&filter!=='original'){
         const _pal=getPal();
-        if(filter==='pixel'){duotoneImage(STATE.assets.astronautOriginal,_pal.duotoneDark,_pal.duotoneLight,url=>{STATE.assets.astronaut=url;astroImg.src=url;});}
-        else{tintImage(STATE.assets.astronautOriginal,_pal.tintColor,url=>{STATE.assets.astronaut=url;astroImg.src=url;});}
+        if(filter==='pixel'){duotoneImage(STATE.assets.astronautOriginal,_pal.duotoneDark,_pal.duotoneLight,url=>{astroImg.src=url;});}
+        else{tintImage(STATE.assets.astronautOriginal,_pal.tintColor,url=>{astroImg.src=url;});}
     }else{astroImg.src=STATE.assets.astronaut;}
     const alienEmojis=['👽','👾','🛸','🤖','👹','💀'];
     let lastAlienEmoji='';
