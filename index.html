@@ -563,16 +563,19 @@ function initGameEngine(){
         if(filter!=='original')return false;
         const key=emoji+'_'+size;
         if(!_emojiHQCache[key]){
-            const scale=4;const ec=document.createElement('canvas');
-            ec.width=size*scale;ec.height=size*scale;
+            const scale=4;const pad=size*scale*0.3;const total=size*scale+pad*2;
+            const ec=document.createElement('canvas');
+            ec.width=total;ec.height=total;
             const ex=ec.getContext('2d');
             ex.font=`${size*scale}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",serif`;
             ex.textAlign='center';ex.textBaseline='middle';
-            ex.fillText(emoji,size*scale/2,size*scale/2);
-            _emojiHQCache[key]=ec;
+            ex.fillText(emoji,total/2,total/2);
+            _emojiHQCache[key]={canvas:ec,pad,scale};
         }
+        const e=_emojiHQCache[key];
         c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
-        c.drawImage(_emojiHQCache[key],x-size/2,y-size/2,size,size);
+        const draw=size+e.pad/e.scale*2;
+        c.drawImage(e.canvas,x-draw/2,y-draw/2,draw,draw);
         c.restore();return true;
     }
 
