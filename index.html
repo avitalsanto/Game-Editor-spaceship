@@ -13,18 +13,18 @@ html.mode-game,html.mode-game body{overflow:hidden;position:fixed;width:100%;hei
 a,button,input,textarea{-webkit-tap-highlight-color:transparent}
 
 /* ═══ WELCOME ═══ */
-#welcomeScreen{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,6vmin,48px);background:#0b0b15}
-.welcome-logo{font-size:clamp(56px,12vmin,90px);line-height:1;margin-bottom:8px}
+#welcomeScreen{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,6vmin,48px);background:#000}
+.welcome-logo{width:clamp(216px,55vmin,408px);max-height:48dvh;height:auto;object-fit:contain;display:block;margin:0 auto 14px;pointer-events:none;user-select:none;-webkit-user-drag:none}
 #welcomeScreen h1{font-size:clamp(32px,6vmin,52px);margin-bottom:10px;color:#e8e4f8;font-weight:800;letter-spacing:-.5px}
 #welcomeScreen .sub{font-size:clamp(14px,1.8vmin,17px);color:#6a6e84;margin-bottom:clamp(36px,6vmin,56px);max-width:440px;line-height:1.8}
-.welcome-btns{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
-@media(min-width:600px){.welcome-btns{flex-direction:row;max-width:440px;gap:16px}}
+.welcome-btns{display:flex;flex-direction:row;gap:14px;width:100%;max-width:440px}
+@media(min-width:600px){.welcome-btns{gap:16px}}
 .w-btn{padding:16px 24px;font-size:clamp(15px,1.8vmin,17px);border:none;border-radius:14px;cursor:pointer;font-weight:700;transition:transform .15s,box-shadow .2s;font-family:inherit;letter-spacing:.3px;width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;gap:8px}
 .w-btn:active{transform:scale(.96)}
-.w-btn-play{background:rgba(255,255,255,.05);color:#9a9ab0;border:1px solid rgba(255,255,255,.08)}
-.w-btn-play:hover{background:rgba(255,255,255,.09);transform:scale(1.02)}
-.w-btn-edit{background:#7c3aed;color:#fff;box-shadow:0 4px 20px rgba(124,58,237,.25)}
-.w-btn-edit:hover{background:#8b5cf6;box-shadow:0 6px 28px rgba(124,58,237,.4);transform:scale(1.02)}
+.w-btn-primary{background:#7c3aed;color:#fff;box-shadow:0 4px 20px rgba(124,58,237,.25)}
+.w-btn-primary:hover{background:#8b5cf6;box-shadow:0 6px 28px rgba(124,58,237,.4);transform:scale(1.02)}
+.w-btn-secondary{background:rgba(255,255,255,.05);color:#9a9ab0;border:1px solid rgba(255,255,255,.08)}
+.w-btn-secondary:hover{background:rgba(255,255,255,.09);transform:scale(1.02)}
 
 /* ═══ EDITOR ═══ */
 #editorScreen{min-height:100dvh;padding:0 clamp(16px,5vw,64px) clamp(32px,5vmin,56px);background:#0b0b15;display:none;max-width:800px;margin:0 auto;padding-top:68px}
@@ -369,7 +369,7 @@ function renderApp(){
 }
 
 function renderWelcome(){
-    return `<div id="welcomeScreen"><div class="welcome-logo">🚀</div><h1>לחצות את מאדים</h1><p class="sub">טוסו בין המטאורים, אספו כוכבים והימנעו מחייזרים</p><div class="welcome-btns"><button class="w-btn w-btn-edit" id="wEditBtn">ערוך משחק</button><button class="w-btn w-btn-play" id="wPlayBtn">שחק עכשיו</button></div></div>`;
+    return `<div id="welcomeScreen"><img class="welcome-logo" src="https://static.wixstatic.com/media/b4f4e1_a656b79ccf6940879d999ba59dad71b8~mv2.png" alt="לחצות את מאדים" draggable="false"><h1>לחצות את מאדים</h1><p class="sub">טוסו בין המטאורים, אספו כוכבים והימנעו מחייזרים</p><div class="welcome-btns"><button class="w-btn w-btn-primary" id="wEditBtn">ערוך משחק</button><button class="w-btn w-btn-secondary" id="wPlayBtn">שחק עכשיו</button></div></div>`;
 }
 
 function bindWelcome(){
